@@ -12,14 +12,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center font-semibold transition-all active:scale-[0.98] disabled:opacity-50",
+          "inline-flex items-center justify-center font-bold tracking-tight transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer",
           {
-            "bg-primary text-primary-foreground hover:brightness-110 shadow-lg shadow-primary/10": variant === "primary",
-            "border border-white/10 bg-transparent hover:bg-white/5 text-foreground": variant === "outline",
-            "hover:text-primary bg-transparent": variant === "ghost",
-            "px-4 py-2 text-sm": size === "sm",
-            "px-6 py-3 text-sm": size === "md",
-            "px-8 py-4 text-lg": size === "lg",
+            // Primary: Uses your OKLCH primary and foreground
+            "bg-primary text-primary-foreground hover:opacity-90 shadow-md shadow-primary/20": 
+              variant === "primary",
+            
+            // Outline: Uses semantic border and accent colors
+            "border border-border bg-transparent hover:bg-accent hover:text-accent-foreground text-foreground": 
+              variant === "outline",
+            
+            // Ghost: Subtle hover state using accent color
+            "hover:bg-accent hover:text-accent-foreground text-foreground bg-transparent": 
+              variant === "ghost",
+
+            // Sizes
+            "px-4 py-2 text-xs uppercase tracking-wider": size === "sm",
+            "px-6 py-2.5 text-sm": size === "md",
+            "px-10 py-4 text-base": size === "lg",
           },
           className
         )}
