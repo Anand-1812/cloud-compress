@@ -1,6 +1,6 @@
 const page = () => {
   return (
-    <div>This is home page</div>
+    <div className="bg-background">This is home page</div>
   )
 }
 
