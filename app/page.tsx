@@ -1,6 +1,10 @@
+import { Navigation } from "@/components/Navbar/navbar"
+
 const page = () => {
   return (
-    <div>This is a home page</div>
+    <main className="min-h-screen">
+      <Navigation />
+    </main>
   )
 }
 
