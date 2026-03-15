@@ -15,35 +15,35 @@ export function Hero() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
         {/* Badge: Uses semantic border and accent colors from globals.css */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-accent/50 text-primary text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-accent/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary transition-colors">
           <Zap className="w-3 h-3 fill-primary" />
-          <span>New: AI-Powered Compression</span>
+          <span>New: AI-Powered Compression Engine</span>
         </div>
 
         {/* Title: Uses foreground to ensure visibility in light mode */}
-        <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent leading-[1.1]">
+        <h1 className="mb-8 bg-gradient-to-b from-foreground via-foreground to-foreground/65 bg-clip-text text-5xl leading-[1.05] font-black tracking-tighter text-transparent md:text-7xl">
           Compress images <br /> with <span className="text-primary">zero</span> compromise.
         </h1>
 
         {/* Description: Uses muted-foreground for better contrast in light mode */}
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed font-medium">
-          The fastest way to optimize your web assets. Reduce file size by up to 90% while maintaining pixel-perfect quality.
+        <p className="mx-auto mb-10 max-w-2xl text-lg font-medium leading-relaxed text-muted-foreground md:text-xl">
+          Cut asset size by up to 65% while keeping visual fidelity. Built for teams who care about web performance and product quality.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button 
-            size="lg" 
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Button
+            size="lg"
             variant="primary"
-            className="rounded-2xl px-8 h-14 font-bold text-base hover:scale-[1.01] transition-transform group shadow-xl dark:shadow-primary/20"
+            className="group h-14 rounded-2xl px-8 text-base font-bold shadow-xl shadow-primary/20 transition-all hover:scale-[1.01] hover:shadow-2xl hover:shadow-primary/30"
           >
             Start Compressing
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>
-          
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="rounded-2xl px-8 h-14 font-bold text-base backdrop-blur-md"
+
+          <Button
+            size="lg"
+            variant="outline"
+            className="h-14 rounded-2xl border-border bg-background/70 px-8 text-base font-bold backdrop-blur-md transition-colors hover:bg-accent/70"
           >
             View API Docs
           </Button>

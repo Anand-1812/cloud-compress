@@ -12,8 +12,9 @@ const statTiles = [
 export function HeroProductPreview() {
   return (
     <div className="mt-14 mx-auto max-w-5xl">
-      <div className="relative rounded-[2rem] border border-border/80 bg-card/80 p-4 shadow-2xl backdrop-blur-xl md:p-6">
+      <div className="relative rounded-[2rem] border border-border/80 bg-card/80 p-4 shadow-2xl backdrop-blur-xl transition-shadow duration-500 hover:shadow-[0_30px_80px_-30px_var(--color-primary)] md:p-6">
         <div className="pointer-events-none absolute inset-0 -z-10 rounded-[2rem] bg-primary/15 blur-3xl" />
+        <div className="pointer-events-none absolute inset-[1px] rounded-[calc(2rem-1px)] border border-white/10" />
 
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">

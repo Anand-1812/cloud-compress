@@ -10,38 +10,49 @@ export function CTA() {
 
   return (
     <section className="py-20 px-6">
-      <div className="max-w-5xl mx-auto p-12 rounded-[3rem] border border-border bg-secondary/30 text-center relative overflow-hidden backdrop-blur-sm">
-        <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-6 text-foreground">
+      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] border border-border bg-secondary/30 p-12 text-center backdrop-blur-sm">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,var(--color-primary)_0%,transparent_45%)] opacity-20" />
+        <div className="pointer-events-none absolute -right-14 -bottom-14 h-56 w-56 rounded-full bg-primary/20 blur-3xl" />
+
+        <div className="relative z-10 mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-primary">
+          <span>Launch Faster</span>
+        </div>
+
+        <h2 className="relative z-10 mb-6 text-3xl font-black tracking-tighter text-foreground md:text-5xl">
           Ready to compress with <br />
           <span className="text-primary italic">zero compromise?</span>
         </h2>
-        
-        <p className="max-w-md mx-auto text-muted-foreground mb-10 font-medium">
-          Join the build phase. Start optimizing your assets or contribute to the core engine on GitHub.
+
+        <p className="relative z-10 mx-auto mb-10 max-w-md font-medium text-muted-foreground">
+          Join the build phase and speed up your delivery pipeline with an optimizer that protects quality by default.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           {!isSignedIn ? (
             <SignUpButton mode="redirect">
-              <Button size="lg" className="rounded-2xl px-8 h-14 bg-primary text-primary-foreground font-bold hover:scale-[1.02] transition-all shadow-md">
+              <Button size="lg" className="h-14 rounded-2xl bg-primary px-8 font-bold text-primary-foreground shadow-md transition-all hover:scale-[1.02] hover:shadow-xl">
                 Get Started Free
               </Button>
             </SignUpButton>
           ) : (
             <Link href="/home">
-              <Button size="lg" className="rounded-2xl px-8 h-14 bg-primary text-primary-foreground font-bold hover:scale-[1.02] transition-all">
+              <Button size="lg" className="h-14 rounded-2xl bg-primary px-8 font-bold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-xl">
                 Go to Dashboard
               </Button>
             </Link>
           )}
 
-          <Link href="https://github.com/anand-1812/cloud-compress" target="_blank">
-            <Button size="lg" variant="outline" className="rounded-2xl px-8 h-14 border-border bg-background font-bold hover:bg-accent transition-all text-foreground">
+          <Link href="https://github.com/anand-1812/cloud-compress" target="_blank" rel="noreferrer">
+            <Button size="lg" variant="outline" className="h-14 rounded-2xl border-border bg-background/90 px-8 font-bold text-foreground transition-all hover:bg-accent">
               <Github className="mr-2 w-5 h-5" />
               Star on GitHub
             </Button>
           </Link>
         </div>
+
+        <p className="relative z-10 mt-5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          No setup fee · Open source core · Built for developers
+        </p>
       </div>
     </section>
   )
