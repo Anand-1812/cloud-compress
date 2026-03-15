@@ -1,15 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Zap } from "lucide-react"
+import { HeroAmbientEffects } from "./hero-ambient-effects"
+import { HeroProductPreview } from "./hero-product-preview"
 
 export function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-background">
+    <section className="relative isolate overflow-hidden bg-background pt-32 pb-20 md:pt-48 md:pb-32">
+      <HeroAmbientEffects />
+
       {/* Dynamic Background Glow - uses primary with theme-aware opacity */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
+      <div className="pointer-events-none absolute top-0 left-1/2 z-0 h-full w-full -translate-x-1/2">
         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary/20 dark:bg-primary/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
         {/* Badge: Uses semantic border and accent colors from globals.css */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-accent/50 text-primary text-xs font-bold uppercase tracking-widest mb-6 transition-colors">
           <Zap className="w-3 h-3 fill-primary" />
@@ -44,6 +48,8 @@ export function Hero() {
             View API Docs
           </Button>
         </div>
+
+        <HeroProductPreview />
       </div>
     </section>
   )

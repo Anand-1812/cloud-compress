@@ -179,3 +179,89 @@
     letter-spacing: var(--tracking-normal);
   }
 }
+
+.hero-grid-pattern {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: hero-float 16s ease-in-out infinite;
+}
+
+.hero-blob-one {
+  top: -9rem;
+  left: 2%;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle at 30% 30%, var(--primary) 0%, transparent 68%);
+}
+
+.hero-blob-two {
+  right: -2rem;
+  bottom: -10rem;
+  width: 25rem;
+  height: 25rem;
+  animation-delay: -5s;
+  background: radial-gradient(circle at 45% 40%, var(--chart-1) 0%, transparent 70%);
+}
+
+.hero-blob-three {
+  top: 20%;
+  right: 28%;
+  width: 17rem;
+  height: 17rem;
+  animation-duration: 18s;
+  animation-delay: -2s;
+  background: radial-gradient(circle at 50% 50%, var(--chart-3) 0%, transparent 72%);
+}
+
+.hero-fall-dot {
+  position: absolute;
+  top: -12%;
+  width: 2px;
+  height: 54px;
+  border-radius: 9999px;
+  opacity: 0.4;
+  background: linear-gradient(to bottom, var(--primary), transparent);
+  animation-name: hero-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -24px, 0) scale(1.05);
+  }
+}
+
+@keyframes hero-fall {
+  0% {
+    transform: translateY(-115%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(125vh);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob,
+  .hero-fall-dot {
+    animation: none;
+  }
+}
