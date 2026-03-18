@@ -97,10 +97,10 @@ export default function SocialSharePage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/30">
-      {/* Background Ambience */}
+      {/* Background Ambience - Adaptable to light/dark */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 dark:bg-primary/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/15 dark:bg-primary/10 blur-[120px] rounded-full" />
       </div>
 
       <div className="relative max-w-[1400px] mx-auto px-6 py-10">
@@ -111,20 +111,20 @@ export default function SocialSharePage() {
               <ArrowLeft className="mr-2 h-3 w-3 group-hover:-translate-x-1 transition-transform" />
               Back to Studio
             </Link>
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter flex items-center gap-3">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter flex items-center gap-3 text-foreground">
               Social Studio <Share2 className="h-8 w-8 text-primary" />
             </h1>
             <p className="text-muted-foreground font-medium mt-2">Precision dimensions for every platform.</p>
           </div>
 
           <div className="flex items-center gap-3">
-             <Button variant="outline" className="rounded-2xl h-12 px-6" onClick={() => fileInputRef.current?.click()}>
+             <Button variant="outline" className="rounded-2xl h-12 px-6 border-border bg-background" onClick={() => fileInputRef.current?.click()}>
                 <Upload className="mr-2 h-4 w-4" /> Change Image
              </Button>
              <Button 
                 disabled={!uploadedPublicId || isDownloading} 
                 onClick={handleDownload}
-                className="rounded-2xl h-12 px-8 bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                className="rounded-2xl h-12 px-8 bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity"
              >
                 {isDownloading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
                 Export Assets
@@ -142,7 +142,7 @@ export default function SocialSharePage() {
         <div className="grid lg:grid-cols-[380px_1fr] gap-10 items-start">
           {/* Controls Sidebar */}
           <aside className="space-y-6">
-            <div className="p-8 rounded-[2rem] border border-border bg-card/50 backdrop-blur-xl shadow-2xl">
+            <div className="p-8 rounded-[2rem] border border-border bg-card/60 dark:bg-card/50 backdrop-blur-xl shadow-xl dark:shadow-2xl">
               <div className="flex items-center gap-2 mb-8 text-primary">
                 <Monitor className="h-5 w-5" />
                 <span className="text-[10px] font-black uppercase tracking-[0.3em]">Configuration</span>
@@ -155,7 +155,7 @@ export default function SocialSharePage() {
                     <select 
                       value={selectedFormat}
                       onChange={(e) => setSelectedFormat(e.target.value as SocialFormat)}
-                      className="w-full h-14 bg-background border border-border rounded-2xl px-5 font-bold appearance-none cursor-pointer focus:ring-2 focus:ring-primary/20 transition-all"
+                      className="w-full h-14 bg-background border border-border rounded-2xl px-5 font-bold appearance-none cursor-pointer focus:ring-2 focus:ring-primary/20 transition-all text-foreground"
                     >
                       {Object.keys(SOCIAL_FORMATS).map((format) => (
                         <option key={format} value={format}>{format}</option>
@@ -166,13 +166,13 @@ export default function SocialSharePage() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-2xl bg-background border border-border">
+                  <div className="p-4 rounded-2xl bg-muted/30 dark:bg-background border border-border">
                     <span className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Ratio</span>
-                    <p className="font-black text-lg mt-1">{selectedPreset.ratio}</p>
+                    <p className="font-black text-lg mt-1 text-foreground">{selectedPreset.ratio}</p>
                   </div>
-                  <div className="p-4 rounded-2xl bg-background border border-border">
+                  <div className="p-4 rounded-2xl bg-muted/30 dark:bg-background border border-border">
                     <span className="text-[10px] font-black uppercase tracking-tighter text-muted-foreground">Dimensions</span>
-                    <p className="font-black text-lg mt-1">{selectedPreset.width}px</p>
+                    <p className="font-black text-lg mt-1 text-foreground">{selectedPreset.width}px</p>
                   </div>
                 </div>
 
@@ -186,13 +186,13 @@ export default function SocialSharePage() {
             </div>
 
             {/* Source Meta Card */}
-            <div className="p-6 rounded-[2rem] border border-border bg-secondary/20 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-background border border-border flex items-center justify-center">
+            <div className="p-6 rounded-[2rem] border border-border bg-muted/40 dark:bg-secondary/20 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-background border border-border flex items-center justify-center shadow-sm">
                 <ImageIcon className="h-5 w-5 text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Source Image</p>
-                <p className="text-sm font-bold truncate mt-0.5">{fileName ?? "Waiting for file..."}</p>
+                <p className="text-sm font-bold truncate mt-0.5 text-foreground">{fileName ?? "Waiting for file..."}</p>
               </div>
             </div>
           </aside>
@@ -204,28 +204,29 @@ export default function SocialSharePage() {
             {!localPreviewUrl ? (
               <div 
                 onClick={() => fileInputRef.current?.click()}
-                className="aspect-video w-full rounded-[3rem] border-2 border-dashed border-border bg-card/30 hover:bg-card/50 hover:border-primary/50 transition-all flex flex-col items-center justify-center cursor-pointer group"
+                className="aspect-video w-full rounded-[3rem] border-2 border-dashed border-border bg-muted/20 dark:bg-card/30 hover:bg-muted/30 dark:hover:bg-card/50 hover:border-primary/50 transition-all flex flex-col items-center justify-center cursor-pointer group"
               >
                 <div className="w-20 h-20 rounded-[1.5rem] bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Upload className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-black tracking-tight">Drop your source here</h3>
+                <h3 className="text-2xl font-black tracking-tight text-foreground">Drop your source here</h3>
                 <p className="text-muted-foreground font-medium mt-2">High-res PNG or JPG recommended</p>
               </div>
             ) : (
-              <div className="space-y-8">
-                <div className="relative rounded-[3rem] border border-border bg-card/50 p-4 shadow-2xl overflow-hidden backdrop-blur-sm">
+              <div className="space-y-8 animate-in fade-in duration-500">
+                <div className="relative rounded-[3rem] border border-border bg-card/40 dark:bg-card/50 p-4 shadow-xl dark:shadow-2xl overflow-hidden backdrop-blur-sm">
                   <div className="absolute top-8 left-8 z-10">
-                    <div className="px-4 py-2 rounded-full bg-background/80 backdrop-blur-md border border-border text-[10px] font-black uppercase tracking-widest">
+                    <div className="px-4 py-2 rounded-full bg-background/90 backdrop-blur-md border border-border text-[10px] font-black uppercase tracking-widest text-foreground shadow-sm">
                       Live Preview
                     </div>
                   </div>
                   
-                  <div className="relative w-full flex items-center justify-center bg-black/5 rounded-[2.5rem] overflow-hidden min-h-[500px]">
+                  {/* Canvas Background - Uses muted color in light mode for contrast */}
+                  <div className="relative w-full flex items-center justify-center bg-muted/50 dark:bg-black/20 rounded-[2.5rem] overflow-hidden min-h-[500px]">
                     {isUploading ? (
                       <div className="flex flex-col items-center gap-4">
                         <LoaderCircle className="h-10 w-10 animate-spin text-primary" />
-                        <span className="font-black text-sm uppercase tracking-widest">Uploading...</span>
+                        <span className="font-black text-sm uppercase tracking-widest text-foreground">Uploading...</span>
                       </div>
                     ) : (
                       <div 
@@ -257,7 +258,7 @@ export default function SocialSharePage() {
                         )}
                         
                         {isTransforming && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-background/20 backdrop-blur-md">
+                          <div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-md">
                             <LoaderCircle className="h-8 w-8 animate-spin text-primary" />
                           </div>
                         )}
@@ -267,24 +268,24 @@ export default function SocialSharePage() {
                 </div>
 
                 {/* Comparison Mini-Bar */}
-                <div className="grid grid-cols-2 gap-6">
-                   <div className="p-4 rounded-3xl border border-border bg-background/50 flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-secondary/50 overflow-hidden">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                   <div className="p-4 rounded-3xl border border-border bg-card/60 flex items-center gap-4 shadow-sm">
+                      <div className="w-12 h-12 rounded-2xl bg-muted overflow-hidden border border-border">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={localPreviewUrl} alt="source" className="w-full h-full object-cover" />
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-muted-foreground">Original</p>
-                        <p className="text-xs font-bold truncate">Source file</p>
+                        <p className="text-xs font-bold truncate text-foreground">Source file</p>
                       </div>
                    </div>
-                   <div className="p-4 rounded-3xl border border-border bg-background/50 flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                   <div className="p-4 rounded-3xl border border-border bg-card/60 flex items-center gap-4 shadow-sm">
+                      <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
                         <Maximize2 className="h-5 w-5 text-primary" />
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-muted-foreground">Processing</p>
-                        <p className="text-xs font-bold">Auto-Center Fill</p>
+                        <p className="text-xs font-bold text-foreground">Auto-Center Fill</p>
                       </div>
                    </div>
                 </div>

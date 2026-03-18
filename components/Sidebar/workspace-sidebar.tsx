@@ -4,18 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  Home,
   Image as ImageIcon,
   LayoutDashboard,
   LogOut,
   Menu,
   Moon,
-  Sparkles,
   Sun,
   Video,
   X,
+  Zap
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -25,19 +24,16 @@ const WORKSPACE_LINKS = [
   {
     href: "/home",
     label: "Dashboard",
-    description: "Workspace overview",
     Icon: LayoutDashboard,
   },
   {
     href: "/social-share",
-    label: "Image Compress",
-    description: "Resize and optimize images",
+    label: "Image Engine",
     Icon: ImageIcon,
   },
   {
     href: "/video-upload",
-    label: "Video Compress",
-    description: "Shrink large video files",
+    label: "Video Engine",
     Icon: Video,
   },
 ];
@@ -48,220 +44,131 @@ export function WorkspaceSidebar() {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
-  const isDarkTheme = resolvedTheme === "dark";
-
-  useEffect(() => {
-    if (!isOpen) {
-      document.body.style.removeProperty("overflow");
-      return;
-    }
-
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.removeProperty("overflow");
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
+  const isDark = resolvedTheme === "dark";
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-xl md:hidden">
-        <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-[0_0_20px_rgba(245,158,11,0.35)]">
-              <span className="text-base font-black text-black">CC</span>
-            </div>
-            <div>
-              <p className="text-sm font-black tracking-tight text-foreground">
-                CloudCompress
-              </p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                Workspace
-              </p>
-            </div>
-          </Link>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="rounded-xl"
-            onClick={() => setIsOpen(true)}
-            aria-label="Open sidebar"
-          >
-            <Menu className="h-4 w-4" />
-          </Button>
-        </div>
+      {/* MOBILE TRIGGER - Flush to top */}
+      <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-sidebar-border/50 bg-background/80 px-6 backdrop-blur-xl md:hidden">
+        <Link href="/" className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+            <span className="text-xs font-black text-black">CC</span>
+          </div>
+          <span className="text-xs font-black uppercase tracking-widest">Studio</span>
+        </Link>
+        <Button variant="ghost" size="sm" onClick={() => setIsOpen(true)}>
+          <Menu className="h-5 w-5" />
+        </Button>
       </header>
 
+      {/* MOBILE OVERLAY */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/45 backdrop-blur-[2px] transition-opacity md:hidden",
-          isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+          "fixed inset-0 z-40 bg-background/40 backdrop-blur-sm transition-opacity md:hidden",
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         )}
         onClick={() => setIsOpen(false)}
       />
 
+      {/* CORE 2.0 SIDEBAR */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-screen w-[19rem] flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground shadow-2xl transition-transform duration-300",
-          isOpen ? "translate-x-0" : "-translate-x-full",
-          "md:translate-x-0"
+          "fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-r border-sidebar-border bg-sidebar transition-transform duration-300 md:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex items-center justify-between border-b border-sidebar-border px-5 py-5">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-[0_0_20px_rgba(245,158,11,0.35)]">
-              <span className="text-base font-black text-black">CC</span>
+        {/* TOP: BRANDING */}
+        <div className="flex h-20 items-center justify-between px-6">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20 transition-transform group-hover:scale-105">
+              <span className="text-sm font-black text-black">CC</span>
             </div>
-            <div>
-              <p className="text-base font-black tracking-tight text-foreground">
-                CloudCompress
-              </p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
-                Sidebar Navigation
-              </p>
+            <div className="flex flex-col">
+              <span className="text-sm font-black tracking-tight text-sidebar-foreground">CloudCompress</span>
             </div>
           </Link>
-
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="rounded-xl md:hidden"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close sidebar"
-          >
-            <X className="h-5 w-5" />
+          <Button variant="ghost" size="sm" className="md:hidden" onClick={() => setIsOpen(false)}>
+            <X className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
-          <div className="rounded-2xl border border-sidebar-border bg-background/60 p-3.5">
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-              Signed In
+        {/* MIDDLE: SCROLLABLE NAVIGATION */}
+        <div className="flex-1 space-y-8 overflow-y-auto px-4 py-6 scrollbar-hide">
+          
+          <nav className="space-y-1">
+            <p className="mb-4 px-3 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/50">
+              Main Menu
             </p>
-            <p className="mt-2 truncate text-sm font-black tracking-tight text-foreground">
-              {user?.fullName || user?.firstName || "CloudCompress User"}
-            </p>
-            <p className="truncate text-xs font-medium text-muted-foreground">
-              {user?.primaryEmailAddress?.emailAddress || "Session active"}
-            </p>
-          </div>
+            {WORKSPACE_LINKS.map((link) => {
+              const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+              const Icon = link.Icon;
 
-          <div>
-            <p className="px-1 text-[10px] font-black uppercase tracking-[0.22em] text-primary">
-              Workspace
-            </p>
-            <nav className="mt-3 space-y-2">
-              {WORKSPACE_LINKS.map((link) => {
-                const isActive =
-                  pathname === link.href || pathname.startsWith(`${link.href}/`);
-                const Icon = link.Icon;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all",
+                    isActive 
+                      ? "bg-primary text-primary-foreground shadow-sm" 
+                      : "text-muted-foreground hover:bg-accent/40 hover:text-sidebar-foreground"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Icon className={cn("h-4 w-4", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover:text-primary")} />
+                  <span className="text-[13px] font-bold tracking-tight">{link.label}</span>
+                  
+                  {isActive && (
+                    <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary-foreground/50" />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
 
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "group block rounded-2xl border px-3.5 py-3 transition-all",
-                      isActive
-                        ? "border-primary bg-primary/12 shadow-md shadow-primary/15"
-                        : "border-sidebar-border bg-background/60 hover:border-primary/45 hover:bg-accent/45"
-                    )}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={cn(
-                          "flex h-9 w-9 items-center justify-center rounded-lg",
-                          isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-accent text-accent-foreground"
-                        )}
-                      >
-                        <Icon className="h-4 w-4" />
-                      </div>
-
-                      <div className="min-w-0">
-                        <p className="text-sm font-black tracking-tight text-foreground">
-                          {link.label}
-                        </p>
-                        <p className="truncate text-xs font-medium text-muted-foreground">
-                          {link.description}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-
-          <div className="rounded-2xl border border-sidebar-border bg-gradient-to-br from-primary/12 to-transparent p-3.5">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">
-              Quick Actions
-            </p>
-
-            <div className="mt-3 flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="rounded-xl"
-                onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
-              >
-                {isDarkTheme ? (
-                  <Sun className="mr-2 h-3.5 w-3.5" />
-                ) : (
-                  <Moon className="mr-2 h-3.5 w-3.5" />
-                )}
-                Theme
-              </Button>
-
-              <Link href="/">
-                <Button type="button" variant="outline" size="sm" className="rounded-xl">
-                  <Home className="mr-2 h-3.5 w-3.5" />
-                  Landing
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/12 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-            <Sparkles className="h-3.5 w-3.5" />
-            Optimized App Shell
-          </div>
         </div>
 
-        <div className="border-t border-sidebar-border p-4">
-          <div className="flex items-center justify-between gap-3 rounded-2xl border border-sidebar-border bg-background/60 p-3">
-            <UserButton />
+        {/* BOTTOM: USER PROFILE - Docked Style */}
+        <div className="border-t border-sidebar-border/50 p-4">
+          <div className="flex items-center gap-3 rounded-2xl bg-accent/30 p-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-background border border-sidebar-border/50">
+              <UserButton 
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox: "h-8 w-8 rounded-lg",
+                  }
+                }}
+              />
+            </div>
+            
+            <div className="flex flex-1 flex-col min-w-0">
+              <span className="truncate text-xs font-black tracking-tight text-sidebar-foreground">
+                {user?.firstName || "Operator"}
+              </span>
+              <span className="truncate text-[10px] font-medium text-muted-foreground">
+                Pro Plan
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              aria-label="Toggle theme"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent/60 hover:text-sidebar-foreground"
+            >
+              {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
+            </button>
 
             <SignOutButton redirectUrl="/">
-              <button
-                type="button"
-                className="inline-flex items-center rounded-xl border border-border px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-foreground transition-all hover:bg-accent"
-              >
-                <LogOut className="mr-2 h-3.5 w-3.5" />
-                Sign Out
+              <button className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors">
+                <LogOut className="h-3.5 w-3.5" />
               </button>
             </SignOutButton>
+          </div>
+          
+          <div className="mt-4 flex items-center justify-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/30">
+             <Zap className="h-3 w-3" />
+             Cloud Processing Active
           </div>
         </div>
       </aside>

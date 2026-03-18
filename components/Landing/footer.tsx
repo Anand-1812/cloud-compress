@@ -21,10 +21,10 @@ export function Footer() {
             Github
           </Link>
           <Link href="/sign-in" className="transition-colors hover:text-primary">
-            Sign In
+            Docs
           </Link>
           <Link href="/sign-up" className="transition-colors hover:text-primary">
-            Sign Up
+            sign-up
           </Link>
         </div>
       </div>
