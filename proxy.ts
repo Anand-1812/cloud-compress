@@ -1,37 +1,31 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextResponse } from 'next/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-const isPublicRoute = createRouteMatcher([
-  "/sign-in",
-  "/sign-up",
-  "/",
-  "/home"
-]);
+const isAuthRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher(["/"]);
+const isPublicApiRoute = createRouteMatcher(["/api/videos"]);
 
-const isPublicApiRoute = createRouteMatcher([
-  "/api/videos",
-]);
+export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth();
+  const { pathname, href } = req.nextUrl;
+  const isApiRequest = pathname.startsWith("/api");
 
-export default clerkMiddleware((auth, req) => {
-  const { userId } = auth();
-  const currUrl = new URL(req.url);
-
-  const isHomePage = currUrl.pathname === "/home";
-  const isApiRequest = currUrl.pathname.startsWith("/api");
-
-  // Redirect logged-in users away from auth pages
-  if (userId && isPublicRoute(req) && !isHomePage) {
+  if (userId && isAuthRoute(req)) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 
-  // Protect API routes (except public ones)
-  if (isApiRequest && !isPublicApiRoute(req) && !userId) {
+  if (isApiRequest) {
+    if (userId || isPublicApiRoute(req)) {
+      return NextResponse.next();
+    }
+
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Protect non-public pages
-  if (!userId && !isPublicRoute(req) && !isApiRequest) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+  if (!userId && !isPublicRoute(req) && !isAuthRoute(req)) {
+    const signInUrl = new URL("/sign-in", req.url);
+    signInUrl.searchParams.set("redirect_url", href);
+    return NextResponse.redirect(signInUrl);
   }
 
   return NextResponse.next();

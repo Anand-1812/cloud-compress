@@ -8,7 +8,12 @@ export default function Page() {
 
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-md">
-          <SignIn />
+          <SignIn
+            path="/sign-in"
+            routing="path"
+            signUpUrl="/sign-up"
+            fallbackRedirectUrl="/home"
+          />
         </div>
       </div>
     </div>

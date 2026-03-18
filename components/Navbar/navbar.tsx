@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
-import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
 
 import {
@@ -12,17 +12,18 @@ import {
   UserButton,
 } from "@clerk/nextjs"
 
+const NAV_LINKS = [
+  { href: "/home", label: "Dashboard" },
+  { href: "/social-share", label: "Image Compress" },
+  { href: "/video-upload", label: "Video Compress" },
+]
+
 export function Navigation() {
 
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const { user } = useUser()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) return null
+  const { resolvedTheme, setTheme } = useTheme()
+  const { isSignedIn } = useUser()
+  const pathname = usePathname()
+  const isDarkTheme = resolvedTheme === "dark"
 
   return (
     <nav className="fixed top-0 w-full z-50 px-6 py-6">
@@ -43,14 +44,25 @@ export function Navigation() {
             </span>
           </Link>
 
-          <div className="hidden md:flex gap-10 text-[12px] font-bold uppercase tracking-[0.15em] text-foreground/40">
-            <Link href="/docs" className="hover:text-primary transition-all">
-              Docs
-            </Link>
+          <div className="hidden md:flex gap-2 rounded-full border border-border/70 bg-background/70 px-2 py-2">
+            {NAV_LINKS.map((link) => {
+              const isActive =
+                pathname === link.href || pathname.startsWith(`${link.href}/`)
 
-            <Link href="/api" className="hover:text-primary transition-all">
-              API
-            </Link>
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.15em] transition-all ${
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                      : "text-foreground/55 hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
 
         </div>
@@ -63,19 +75,15 @@ export function Navigation() {
             variant="ghost"
             size="sm"
             className="rounded-xl cursor-pointer"
-            onClick={() =>
-              setTheme(theme === "dark" ? "light" : "dark")
-            }
+            aria-label="Toggle theme"
+            onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
           >
-            {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
+            <Sun className="hidden h-5 w-5 dark:block" />
+            <Moon className="h-5 w-5 dark:hidden" />
           </Button>
 
           {/* When user is NOT logged in */}
-          {!user && (
+          {!isSignedIn && (
             <SignUpButton mode="redirect">
               <Button className="rounded-xl px-7 py-2.5 bg-primary text-black font-bold uppercase tracking-wider cursor-pointer">
                 Get Started
@@ -84,7 +92,7 @@ export function Navigation() {
           )}
 
           {/* When user IS logged in */}
-          {user && <UserButton />}
+          {isSignedIn && <UserButton />}
 
         </div>
 
