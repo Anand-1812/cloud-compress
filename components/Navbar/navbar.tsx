@@ -37,12 +37,12 @@ export function Navigation() {
           </Link>
 
           <div className="hidden md:flex gap-10 text-[12px] font-bold uppercase tracking-[0.15em] text-foreground/40">
-            <Link href="/sign-in" className="hover:text-primary transition-all">
-              Sign In
+            <Link href="/docs" className="hover:text-primary transition-all">
+              Docs
             </Link>
 
-            <Link href="/sign-up" className="hover:text-primary transition-all">
-              Sign Up
+            <Link href="/api" className="hover:text-primary transition-all">
+              Api
             </Link>
           </div>
 
