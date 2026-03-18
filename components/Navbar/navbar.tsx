@@ -4,7 +4,6 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 import { useTheme } from "next-themes"
 import { Sun, Moon } from "lucide-react"
-import { usePathname } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
 
 import {
@@ -12,17 +11,10 @@ import {
   UserButton,
 } from "@clerk/nextjs"
 
-const NAV_LINKS = [
-  { href: "/home", label: "Dashboard" },
-  { href: "/social-share", label: "Image Compress" },
-  { href: "/video-upload", label: "Video Compress" },
-]
-
 export function Navigation() {
 
   const { resolvedTheme, setTheme } = useTheme()
   const { isSignedIn } = useUser()
-  const pathname = usePathname()
   const isDarkTheme = resolvedTheme === "dark"
 
   return (
@@ -44,25 +36,14 @@ export function Navigation() {
             </span>
           </Link>
 
-          <div className="hidden md:flex gap-2 rounded-full border border-border/70 bg-background/70 px-2 py-2">
-            {NAV_LINKS.map((link) => {
-              const isActive =
-                pathname === link.href || pathname.startsWith(`${link.href}/`)
+          <div className="hidden md:flex gap-10 text-[12px] font-bold uppercase tracking-[0.15em] text-foreground/40">
+            <Link href="/sign-in" className="hover:text-primary transition-all">
+              Sign In
+            </Link>
 
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.15em] transition-all ${
-                    isActive
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
-                      : "text-foreground/55 hover:text-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              )
-            })}
+            <Link href="/sign-up" className="hover:text-primary transition-all">
+              Sign Up
+            </Link>
           </div>
 
         </div>

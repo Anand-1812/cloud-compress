@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/Navbar/navbar";
+import { WorkspaceSidebar } from "@/components/Sidebar/workspace-sidebar";
 
 export default function RootGroupLayout({
   children,
@@ -7,8 +7,8 @@ export default function RootGroupLayout({
 }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navigation />
-      <div className="pt-28">{children}</div>
+      <WorkspaceSidebar />
+      <div className="pt-20 md:pl-[19rem] md:pt-0">{children}</div>
     </div>
   );
 }

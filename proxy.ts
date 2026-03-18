@@ -9,8 +9,9 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
   const { pathname, href } = req.nextUrl;
   const isApiRequest = pathname.startsWith("/api");
+  const isLandingPage = pathname === "/";
 
-  if (userId && isAuthRoute(req)) {
+  if (userId && (isAuthRoute(req) || isLandingPage)) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 

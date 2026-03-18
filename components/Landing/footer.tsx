@@ -20,11 +20,11 @@ export function Footer() {
           <Link href="https://github.com/anand-1812" className="transition-colors hover:text-primary">
             Github
           </Link>
-          <Link href="/docs" className="transition-colors hover:text-primary">
-            Docs
+          <Link href="/sign-in" className="transition-colors hover:text-primary">
+            Sign In
           </Link>
-          <Link href="/api" className="transition-colors hover:text-primary">
-            API
+          <Link href="/sign-up" className="transition-colors hover:text-primary">
+            Sign Up
           </Link>
         </div>
       </div>
