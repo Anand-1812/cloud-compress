@@ -74,12 +74,13 @@ export async function POST(request: NextRequest) {
 
     const video = await prisma.video.create({
       data: {
+        userId,
         title: title.trim(),
         description: description?.trim() || null,
         publicId: result.public_id,
         originalSize: originalSize ?? String(file.size),
         compressedSize: String(result.bytes),
-        duration: String(result.duration ?? 0),
+        duration: result.duration ?? 0,
       },
     });
 

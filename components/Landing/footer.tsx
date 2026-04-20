@@ -17,14 +17,14 @@ export function Footer() {
         </div>
 
         <div className="flex gap-8 text-[11px] font-bold uppercase tracking-widest text-muted-foreground/70">
-          <Link href="https://github.com/anand-1812" className="transition-colors hover:text-primary">
+          <Link href="https://github.com/anand-1812" className="transition-colors hover:text-primary" target="_blank" rel="noreferrer">
             Github
           </Link>
-          <Link href="/sign-in" className="transition-colors hover:text-primary">
+          <Link href="/docs" className="transition-colors hover:text-primary">
             Docs
           </Link>
           <Link href="/sign-up" className="transition-colors hover:text-primary">
-            sign-up
+            Sign Up
           </Link>
         </div>
       </div>

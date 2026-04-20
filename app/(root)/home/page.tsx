@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Image as ImageIcon, Sparkles, Video,Zap, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { VideoLibrary } from "@/components/Home/video-library";
 import { cn } from "@/lib/utils";
 
 const tools = [
@@ -107,6 +108,8 @@ export default function HomePage() {
             );
           })}
         </div>
+
+        <VideoLibrary />
 
         {/* Bottom Status / Specs Bar */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/40">

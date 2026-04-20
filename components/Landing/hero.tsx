@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Zap } from "lucide-react"
 import { HeroAmbientEffects } from "./hero-ambient-effects"
 import { HeroProductPreview } from "./hero-product-preview"
+import Link from "next/link"
 
 export function Hero() {
   return (
@@ -31,22 +32,26 @@ export function Hero() {
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button
-            size="lg"
-            variant="primary"
-            className="group h-14 rounded-2xl px-8 text-base font-bold shadow-xl shadow-primary/20 transition-all hover:scale-[1.01] hover:shadow-2xl hover:shadow-primary/30"
-          >
-            Start Compressing
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <Link href="/sign-up">
+            <Button
+              size="lg"
+              variant="primary"
+              className="group h-14 rounded-2xl px-8 text-base font-bold shadow-xl shadow-primary/20 transition-all hover:scale-[1.01] hover:shadow-2xl hover:shadow-primary/30"
+            >
+              Start Compressing
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
 
-          <Button
-            size="lg"
-            variant="outline"
-            className="h-14 rounded-2xl border-border bg-background/70 px-8 text-base font-bold backdrop-blur-md transition-colors hover:bg-accent/70"
-          >
-            View API Docs
-          </Button>
+          <Link href="/docs#api">
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-14 rounded-2xl border-border bg-background/70 px-8 text-base font-bold backdrop-blur-md transition-colors hover:bg-accent/70"
+            >
+              View API Docs
+            </Button>
+          </Link>
         </div>
 
         <HeroProductPreview />

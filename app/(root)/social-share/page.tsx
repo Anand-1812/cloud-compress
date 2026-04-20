@@ -63,8 +63,8 @@ export default function SocialSharePage() {
       const data = await response.json();
       if (!response.ok || !data.publicId) throw new Error(data.error ?? "Upload failed");
       setUploadedPublicId(data.publicId);
-    } catch (err: any) {
-      setErrorMessage(err.message);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Upload failed");
     } finally {
       setIsUploading(false);
     }

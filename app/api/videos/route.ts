@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs/server";
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { NextResponse } from "next/server";
@@ -10,7 +11,14 @@ const prisma = new PrismaClient({ adapter });
 
 export const GET = async () => {
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const videos = await prisma.video.findMany({
+      where: { userId },
       orderBy: { createdAt: "desc" },
     });
 

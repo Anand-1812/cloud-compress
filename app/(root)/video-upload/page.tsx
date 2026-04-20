@@ -17,64 +17,17 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  buildCloudinaryVideoUrl,
+  formatBytes,
+  formatDate,
+  formatDuration,
+  getCompressionStats,
+  type VideoRecord,
+} from "@/lib/video-utils";
 
 const MAX_FILE_SIZE = 70 * 1024 * 1024;
 const MAX_RECENT_VIDEOS = 6;
-
-type VideoRecord = {
-  id: string;
-  title: string;
-  description: string | null;
-  publicId: string;
-  originalSize: string;
-  compressedSize: string;
-  duration: string | number;
-  createdAt: string;
-  updatedAt: string;
-};
-
-function formatBytes(bytes: number) {
-  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
-
-  const units = ["B", "KB", "MB", "GB"];
-  const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-  const value = bytes / 1024 ** index;
-
-  return `${value >= 100 || index === 0 ? value.toFixed(0) : value.toFixed(1)} ${units[index]}`;
-}
-
-function formatDuration(value: string | number) {
-  const seconds = Number(value);
-
-  if (!Number.isFinite(seconds) || seconds <= 0) return "0:00";
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-
-  if (hours > 0) {
-    return `${hours}:${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
-  }
-
-  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
-}
-
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date(value));
-}
-
-function buildCloudinaryVideoUrl(publicId: string) {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-
-  if (!cloudName) return null;
-
-  const encodedPublicId = encodeURIComponent(publicId).replace(/%2F/g, "/");
-  return `https://res.cloudinary.com/${cloudName}/video/upload/f_mp4,q_auto/${encodedPublicId}.mp4`;
-}
 
 export default function VideoUploadPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -127,11 +80,10 @@ export default function VideoUploadPage() {
   const uploadedVideoUrl = uploadedVideo ? buildCloudinaryVideoUrl(uploadedVideo.publicId) : null;
   const previewSource = uploadedVideoUrl ?? previewUrl;
   const previewTitle = uploadedVideo?.title || title || file?.name || "Preview";
-  const originalSize = uploadedVideo ? Number(uploadedVideo.originalSize) : file?.size ?? 0;
-  const compressedSize = uploadedVideo ? Number(uploadedVideo.compressedSize) : 0;
-  const savedBytes = Math.max(originalSize - compressedSize, 0);
-  const savedPercentage =
-    originalSize > 0 && compressedSize > 0 ? Math.round((savedBytes / originalSize) * 100) : 0;
+  const { original: originalSize, compressed: compressedSize, savedBytes, savedPercentage } =
+    uploadedVideo
+      ? getCompressionStats(uploadedVideo.originalSize, uploadedVideo.compressedSize)
+      : getCompressionStats(file?.size ?? 0, 0);
 
   function resetMessages() {
     setErrorMessage(null);
