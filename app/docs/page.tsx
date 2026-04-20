@@ -15,12 +15,10 @@ import {
   Sparkles, 
   Video, 
   Zap,
-  Terminal,
-  ArrowUpRight
+  Terminal
 } from "lucide-react";
 import { Navigation } from "@/components/Navbar/navbar";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const DOCS_NAVIGATION = [
   {
@@ -37,34 +35,46 @@ const DOCS_NAVIGATION = [
       { id: "video-engine", label: "Video Engine", icon: Video },
     ],
   },
-  {
-    group: "Security",
-    items: [
-      { id: "auth-flow", label: "Authentication", icon: ShieldCheck },
-    ],
-  },
 ];
 
+const DOC_SECTION_IDS = DOCS_NAVIGATION.flatMap((group) =>
+  group.items.map((item) => item.id)
+);
+
 export default function DocsPage() {
-  const [activeSection, setActiveSection] = useState("overview");
+  const [activeSection, setActiveSection] = useState(() => {
+    if (typeof window === "undefined") return "overview";
 
-  // Handle intersection observer for scroll-spy if needed later
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 100;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    const hash = window.location.hash.replace("#", "");
+    return DOC_SECTION_IDS.includes(hash) ? hash : "overview";
+  });
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-      setActiveSection(id);
-    }
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!visibleEntry?.target.id) return;
+
+        const nextSection = visibleEntry.target.id;
+        setActiveSection(nextSection);
+        window.history.replaceState(null, "", `#${nextSection}`);
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0.2, 0.4, 0.6],
+      }
+    );
+
+    DOC_SECTION_IDS.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
@@ -88,9 +98,10 @@ export default function DocsPage() {
                 </p>
                 <div className="space-y-1">
                   {group.items.map((item) => (
-                    <button
+                    <Link
                       key={item.id}
-                      onClick={() => scrollTo(item.id)}
+                      href={`#${item.id}`}
+                      onClick={() => setActiveSection(item.id)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-bold transition-all group",
                         activeSection === item.id 
@@ -100,7 +111,7 @@ export default function DocsPage() {
                     >
                       <item.icon className={cn("w-4 h-4", activeSection === item.id ? "text-primary" : "text-muted-foreground/60")} />
                       {item.label}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -177,7 +188,7 @@ export default function DocsPage() {
             <section id="image-engine" className="mb-24 scroll-mt-32 border-t border-border/50 pt-24">
               <h2 className="text-3xl font-black tracking-tight mb-8">Social Image Studio</h2>
               <p className="text-muted-foreground/80 mb-8 leading-relaxed">
-                The image studio utilizes "Smart-Fill" algorithms to adapt raw assets into social-safe dimensions. 
+                The image studio utilizes &quot;Smart-Fill&quot; algorithms to adapt raw assets into social-safe dimensions. 
                 It prevents pixel stretching by calculating the optimal focal point before generating the derivative.
               </p>
               
@@ -224,23 +235,6 @@ export default function DocsPage() {
                   <p className="text-xs text-muted-foreground font-medium">Automatic logging of duration, resolution, and format.</p>
                 </div>
               </div>
-            </section>
-
-            {/* AUTH FLOW SECTION */}
-            <section id="auth-flow" className="mb-24 scroll-mt-32 border-t border-border/50 pt-24">
-               <div className="p-10 rounded-[3rem] bg-foreground text-background text-center relative overflow-hidden">
-                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/20 blur-[80px] rounded-full" />
-                  <h2 className="text-3xl font-black tracking-tighter mb-4 relative z-10">Studio Security</h2>
-                  <p className="text-background/60 font-medium mb-8 relative z-10">
-                    Access to the CloudCompress workspace requires an authorized Clerk session. 
-                    Unauthenticated attempts are automatically redirected to the secure portal.
-                  </p>
-                  <Link href="/home">
-                    <Button variant="outline" className="bg-transparent border-background/20 hover:bg-background hover:text-foreground rounded-2xl h-12 px-8 font-bold">
-                      Enter Workspace <ArrowUpRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Link>
-               </div>
             </section>
 
           </div>

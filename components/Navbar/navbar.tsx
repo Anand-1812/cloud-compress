@@ -40,10 +40,6 @@ export function Navigation() {
             <Link href="/docs" className="hover:text-primary transition-all">
               Docs
             </Link>
-
-            <Link href="/docs#api" className="hover:text-primary transition-all">
-              Api
-            </Link>
           </div>
 
         </div>

@@ -43,13 +43,13 @@ export function Hero() {
             </Button>
           </Link>
 
-          <Link href="/docs#api">
+          <Link href="/docs">
             <Button
               size="lg"
               variant="outline"
               className="h-14 rounded-2xl border-border bg-background/70 px-8 text-base font-bold backdrop-blur-md transition-colors hover:bg-accent/70"
             >
-              View API Docs
+              View Docs
             </Button>
           </Link>
         </div>

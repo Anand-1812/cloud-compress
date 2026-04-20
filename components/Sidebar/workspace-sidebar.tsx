@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import {
+  BookOpen,
   Image as ImageIcon,
   LayoutDashboard,
   LogOut,
@@ -35,6 +36,11 @@ const WORKSPACE_LINKS = [
     href: "/video-upload",
     label: "Video Engine",
     Icon: Video,
+  },
+  {
+    href: "/docs",
+    label: "Docs",
+    Icon: BookOpen,
   },
 ];
 
