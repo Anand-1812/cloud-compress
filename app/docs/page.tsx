@@ -2,20 +2,21 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { 
+import {
+  ArrowLeft,
   Monitor,
-  Book, 
-  ChevronRight, 
-  Cpu, 
-  FileJson, 
-  Globe, 
-  Image as ImageIcon, 
-  Layers, 
-  ShieldCheck, 
-  Sparkles, 
-  Video, 
+  Book,
+  ChevronRight,
+  Cpu,
+  FileJson,
+  Globe,
+  Image as ImageIcon,
+  Layers,
+  ShieldCheck,
+  Sparkles,
+  Video,
   Zap,
-  Terminal
+  Terminal,
 } from "lucide-react";
 import { Navigation } from "@/components/Navbar/navbar";
 import { cn } from "@/lib/utils";
@@ -104,12 +105,17 @@ export default function DocsPage() {
                       onClick={() => setActiveSection(item.id)}
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-bold transition-all group",
-                        activeSection === item.id 
-                          ? "bg-primary/10 text-primary border border-primary/10" 
+                        activeSection === item.id
+                          ? "bg-primary/10 text-primary border border-primary/10"
                           : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
                       )}
                     >
-                      <item.icon className={cn("w-4 h-4", activeSection === item.id ? "text-primary" : "text-muted-foreground/60")} />
+                      <item.icon
+                        className={cn(
+                          "w-4 h-4",
+                          activeSection === item.id ? "text-primary" : "text-muted-foreground/60"
+                        )}
+                      />
                       {item.label}
                     </Link>
                   ))}
@@ -117,12 +123,48 @@ export default function DocsPage() {
               </div>
             ))}
           </nav>
+
+          {/* Back to Dashboard link at bottom of sidebar */}
+          <div className="mt-8 pt-6 border-t border-border/50">
+            <Link
+              href="/home"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all group"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              Back to Dashboard
+            </Link>
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all"
+            >
+              <Globe className="w-4 h-4" />
+              Landing Page
+            </Link>
+          </div>
         </aside>
 
         {/* DOCUMENTATION CONTENT */}
         <main className="flex-1 pt-32 md:pt-40 pb-24 px-6 md:px-16 lg:px-24">
           <div className="max-w-3xl">
-            
+
+            {/* Mobile back button — only visible on small screens */}
+            <div className="flex items-center gap-4 mb-10 lg:hidden">
+              <Link
+                href="/home"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-4 py-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/30 transition-all group"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+                Dashboard
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-4 py-2 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all"
+              >
+                <Globe className="w-3.5 h-3.5" />
+                Home
+              </Link>
+            </div>
+
             {/* OVERVIEW SECTION */}
             <section id="overview" className="mb-24 scroll-mt-32">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-6">
@@ -130,15 +172,15 @@ export default function DocsPage() {
                 Getting Started
               </div>
               <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-8 leading-[1.1]">
-                CloudCompress <br /> 
+                CloudCompress <br />
                 <span className="text-muted-foreground">Studio Engine.</span>
               </h1>
               <p className="text-lg text-muted-foreground/80 leading-relaxed mb-10 font-medium">
-                CloudCompress is a specialized media processing engine built for high-performance optimization. 
-                It leverages a hybrid architecture combining local edge logic with global cloud distribution 
+                CloudCompress is a specialized media processing engine built for high-performance optimization.
+                It leverages a hybrid architecture combining local edge logic with global cloud distribution
                 to handle intensive asset transformations.
               </p>
-              
+
               <div className="p-6 rounded-3xl border border-border bg-card/40 backdrop-blur-md">
                 <h4 className="flex items-center gap-2 text-sm font-black uppercase tracking-widest mb-4">
                   <Terminal className="w-4 h-4 text-primary" /> Key Capabilities
@@ -148,8 +190,8 @@ export default function DocsPage() {
                     "Lossless Image Resizing",
                     "Bitrate-Aware Video Compression",
                     "Edge-Computed Previews",
-                    "Cloud-Synced Metadata"
-                  ].map(capability => (
+                    "Cloud-Synced Metadata",
+                  ].map((capability) => (
                     <li key={capability} className="flex items-center gap-3 text-sm font-bold text-foreground/70">
                       <ChevronRight className="w-4 h-4 text-primary" /> {capability}
                     </li>
@@ -164,13 +206,25 @@ export default function DocsPage() {
               <p className="text-muted-foreground/80 mb-8 leading-relaxed">
                 The platform is engineered on a three-tier stack designed to minimize the time between upload and delivery.
               </p>
-              
+
               <div className="space-y-6">
                 {[
-                  { title: "Transformation Layer", desc: "Cloudinary-backed engine handles real-time dynamic resizing and transcoding.", icon: Cpu },
-                  { title: "Data Persistence", desc: "PostgreSQL via Prisma manages asset metadata and historical compression records.", icon: FileJson },
-                  { title: "Identity Control", desc: "Clerk-integrated middleware protects all internal studio operations and user scopes.", icon: ShieldCheck }
-                ].map(tier => (
+                  {
+                    title: "Transformation Layer",
+                    desc: "Cloudinary-backed engine handles real-time dynamic resizing and transcoding.",
+                    icon: Cpu,
+                  },
+                  {
+                    title: "Data Persistence",
+                    desc: "PostgreSQL via Prisma manages asset metadata and historical compression records.",
+                    icon: FileJson,
+                  },
+                  {
+                    title: "Identity Control",
+                    desc: "Clerk-integrated middleware protects all internal studio operations and user scopes.",
+                    icon: ShieldCheck,
+                  },
+                ].map((tier) => (
                   <div key={tier.title} className="flex gap-6 p-6 rounded-[2rem] border border-border bg-accent/20">
                     <div className="w-12 h-12 rounded-2xl bg-background border border-border flex items-center justify-center shrink-0">
                       <tier.icon className="w-5 h-5 text-primary" />
@@ -188,28 +242,28 @@ export default function DocsPage() {
             <section id="image-engine" className="mb-24 scroll-mt-32 border-t border-border/50 pt-24">
               <h2 className="text-3xl font-black tracking-tight mb-8">Social Image Studio</h2>
               <p className="text-muted-foreground/80 mb-8 leading-relaxed">
-                The image studio utilizes &quot;Smart-Fill&quot; algorithms to adapt raw assets into social-safe dimensions. 
+                The image studio utilizes &quot;Smart-Fill&quot; algorithms to adapt raw assets into social-safe dimensions.
                 It prevents pixel stretching by calculating the optimal focal point before generating the derivative.
               </p>
-              
+
               <div className="p-8 rounded-[2.5rem] bg-card border border-border shadow-inner">
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Optimization Strategy</span>
                   <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 </div>
                 <div className="space-y-4">
-                   <div className="flex items-center justify-between text-sm font-bold border-b border-border/50 pb-4">
-                      <span>Auto-Crop Logic</span>
-                      <span className="text-primary tracking-widest uppercase text-[10px]">Active</span>
-                   </div>
-                   <div className="flex items-center justify-between text-sm font-bold border-b border-border/50 pb-4">
-                      <span>WebP Transformation</span>
-                      <span className="text-primary tracking-widest uppercase text-[10px]">Enabled</span>
-                   </div>
-                   <div className="flex items-center justify-between text-sm font-bold">
-                      <span>Lossy-to-Lossless Mapping</span>
-                      <span className="text-primary tracking-widest uppercase text-[10px]">Adaptive</span>
-                   </div>
+                  <div className="flex items-center justify-between text-sm font-bold border-b border-border/50 pb-4">
+                    <span>Auto-Crop Logic</span>
+                    <span className="text-primary tracking-widest uppercase text-[10px]">Active</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm font-bold border-b border-border/50 pb-4">
+                    <span>WebP Transformation</span>
+                    <span className="text-primary tracking-widest uppercase text-[10px]">Enabled</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm font-bold">
+                    <span>Lossy-to-Lossless Mapping</span>
+                    <span className="text-primary tracking-widest uppercase text-[10px]">Adaptive</span>
+                  </div>
                 </div>
               </div>
             </section>
@@ -218,11 +272,11 @@ export default function DocsPage() {
             <section id="video-engine" className="mb-24 scroll-mt-32 border-t border-border/50 pt-24">
               <h2 className="text-3xl font-black tracking-tight mb-8">Video Transcoding Engine</h2>
               <p className="text-muted-foreground/80 mb-8 leading-relaxed">
-                Unlike standard uploads, the Video Engine performs a multi-pass compression routine. 
-                It logs the original size vs. the optimized size into the database, allowing for 
+                Unlike standard uploads, the Video Engine performs a multi-pass compression routine.
+                It logs the original size vs. the optimized size into the database, allowing for
                 real-time efficiency tracking on the dashboard.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="p-6 rounded-3xl border border-border bg-primary/5">
                   <Zap className="w-5 h-5 text-primary mb-4" />
@@ -236,6 +290,29 @@ export default function DocsPage() {
                 </div>
               </div>
             </section>
+
+            {/* BOTTOM NAV */}
+            <div className="border-t border-border/50 pt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
+                CloudCompress Docs v0.1
+              </p>
+              <div className="flex gap-3">
+                <Link
+                  href="/home"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-5 py-2.5 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/30 transition-all group"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+                  Dashboard
+                </Link>
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-card/60 px-5 py-2.5 text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-all"
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  Home
+                </Link>
+              </div>
+            </div>
 
           </div>
         </main>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Clock3,
@@ -15,6 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import {
+  buildCloudinaryAiPreviewUrl,
   buildCloudinaryVideoPosterUrl,
   buildCloudinaryVideoUrl,
   formatBytes,
@@ -36,36 +37,72 @@ function DashboardVideoCard({
   onDownload: (video: VideoRecord) => Promise<void>;
 }) {
   const [isPosterReady, setIsPosterReady] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const fullVideoUrl = buildCloudinaryVideoUrl(video.publicId);
+  const previewUrl = buildCloudinaryAiPreviewUrl(video.publicId);
   const posterUrl = buildCloudinaryVideoPosterUrl(video.publicId);
+
   const { original, compressed, savedPercentage } = getCompressionStats(
     video.originalSize,
     video.compressedSize
   );
 
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
   return (
     <article className="group overflow-hidden rounded-[2rem] border border-border/60 bg-card/70 shadow-xl backdrop-blur-xl">
-      <div className="relative overflow-hidden bg-black px-4 pt-4">
+      <div
+        className="relative overflow-hidden bg-black px-4 pt-4"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="relative aspect-video overflow-hidden rounded-[1.75rem] bg-muted/20">
-          {posterUrl ? (
+          {/* Poster image — hidden while hovering */}
+          {posterUrl && (
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={posterUrl}
                 alt={video.title}
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                className={`h-full w-full object-cover transition-all duration-500 ${
+                  isHovering ? "opacity-0 scale-105" : "opacity-100 scale-100"
+                }`}
                 loading="lazy"
                 onLoad={() => setIsPosterReady(true)}
                 onError={() => setIsPosterReady(true)}
               />
-
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
             </>
-        ) : (
-            <div className="flex h-full items-center justify-center bg-muted/20 text-muted-foreground">
-              <Video className="h-10 w-10" />
-            </div>
+          )}
+
+          {/* AI preview video — plays on hover */}
+          {previewUrl && (
+            <video
+              ref={videoRef}
+              src={previewUrl}
+              muted
+              playsInline
+              loop
+              preload="none"
+              className={`absolute inset-0 h-full w-full object-cover rounded-[1.75rem] transition-opacity duration-500 ${
+                isHovering ? "opacity-100" : "opacity-0"
+              }`}
+            />
           )}
 
           {!isPosterReady && posterUrl && (
@@ -74,8 +111,9 @@ function DashboardVideoCard({
             </div>
           )}
 
-          <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-white/80 backdrop-blur-md">
-            Preview
+          {/* Preview label — switches text on hover */}
+          <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[10px] font-black uppercase tracking-[0.25em] text-white/80 backdrop-blur-md transition-all duration-300">
+            {isHovering ? "▶ Preview" : "Thumbnail"}
           </div>
 
           <div className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-sm font-black text-white backdrop-blur-md">
@@ -217,7 +255,7 @@ export function VideoLibrary() {
           </div>
           <h2 className="mt-5 text-3xl font-black tracking-tight md:text-4xl">Videos</h2>
           <p className="mt-3 max-w-2xl text-base font-medium leading-relaxed text-muted-foreground/80">
-            Cloudinary-generated preview thumbnails for your latest compression jobs, ready to inspect and download.
+            Hover any card to watch a Cloudinary-generated 8-second AI preview. Click download to grab the full compressed file.
           </p>
         </div>
 
