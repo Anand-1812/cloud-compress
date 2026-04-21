@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs/server";
-import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { NextResponse } from "next/server";
 
