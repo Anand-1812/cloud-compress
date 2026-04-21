@@ -18,12 +18,12 @@ export function Hero() {
         {/* Badge: Uses semantic border and accent colors from globals.css */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-accent/60 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary transition-colors">
           <Zap className="w-3 h-3 fill-primary" />
-          <span>New: AI-Powered Compression Engine</span>
+          <span>Cloudinary AI-Powered Compression</span>
         </div>
 
         {/* Title: Uses foreground to ensure visibility in light mode */}
         <h1 className="mb-8 bg-gradient-to-b from-foreground via-foreground to-foreground/65 bg-clip-text text-5xl leading-[1.05] font-black tracking-tighter text-transparent md:text-7xl">
-          Compress images <br /> with <span className="text-primary">zero</span> compromise.
+          Optimize media<br /> with <span className="text-primary">zero</span> compromise.
         </h1>
 
         {/* Description: Uses muted-foreground for better contrast in light mode */}
