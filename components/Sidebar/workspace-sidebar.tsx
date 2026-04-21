@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import {
+  BarChart3,
   BookOpen,
   Image as ImageIcon,
   LayoutDashboard,
@@ -36,6 +37,11 @@ const WORKSPACE_LINKS = [
     href: "/video-upload",
     label: "Video Engine",
     Icon: Video,
+  },
+  {
+    href: "/history",
+    label: "History",
+    Icon: BarChart3,
   },
   {
     href: "/docs",
@@ -151,9 +157,6 @@ export function WorkspaceSidebar() {
               <span className="truncate text-xs font-black tracking-tight text-sidebar-foreground">
                 {user?.firstName || "Operator"}
               </span>
-              <span className="truncate text-[10px] font-medium text-muted-foreground">
-                Pro Plan
-              </span>
             </div>
 
             <button
@@ -172,10 +175,6 @@ export function WorkspaceSidebar() {
             </SignOutButton>
           </div>
           
-          <div className="mt-4 flex items-center justify-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/30">
-             <Zap className="h-3 w-3" />
-             Cloud Processing Active
-          </div>
         </div>
       </aside>
     </>

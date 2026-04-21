@@ -259,12 +259,19 @@ export function VideoLibrary() {
           </p>
         </div>
 
-        <Link href="/video-upload">
-          <Button className="h-12 rounded-2xl px-7 text-xs font-black uppercase tracking-[0.2em]">
-            Upload Another
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/history">
+            <Button variant="outline" className="h-12 rounded-2xl px-6 text-xs font-black uppercase tracking-[0.2em]">
+              View History
+            </Button>
+          </Link>
+          <Link href="/video-upload">
+            <Button className="h-12 rounded-2xl px-7 text-xs font-black uppercase tracking-[0.2em]">
+              Upload Another
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {errorMessage && (

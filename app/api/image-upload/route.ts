@@ -11,6 +11,10 @@ cloudinary.config({
 
 interface CloudinaryUploadResult {
   public_id: string;
+  bytes: number;
+  format: string;
+  width: number;
+  height: number;
 }
 
 export async function POST(request: NextRequest) {
@@ -55,7 +59,16 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    return NextResponse.json({ publicId: result.public_id }, { status: 200 });
+    return NextResponse.json(
+      {
+        publicId: result.public_id,
+        bytes: result.bytes,
+        format: result.format,
+        width: result.width,
+        height: result.height,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Upload image failed.";
