@@ -328,11 +328,6 @@ export default function HistoryPage() {
               Back to Dashboard
             </Link>
 
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.3em] text-primary">
-              <BarChart3 className="h-3.5 w-3.5" />
-              Compression History
-            </div>
-
             <h1 className="mt-6 max-w-4xl text-5xl font-black tracking-tighter md:text-6xl">
               Savings that prove the engine is working.
             </h1>
@@ -493,18 +488,6 @@ export default function HistoryPage() {
                   </p>
                 </div>
 
-                <div className="rounded-[3rem] border border-border bg-foreground p-8 text-background shadow-xl">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-background/50">
-                    Meaningful Database Use
-                  </p>
-                  <h2 className="mt-4 text-3xl font-black tracking-tight">
-                    Postgres is now powering your insight layer.
-                  </h2>
-                  <p className="mt-4 font-medium leading-relaxed text-background/65">
-                    Every upload contributes original size, compressed size, duration, and date data
-                    to this page, so the database is tracking real product value over time.
-                  </p>
-                </div>
               </aside>
             </div>
           </div>

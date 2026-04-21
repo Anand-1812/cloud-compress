@@ -12,7 +12,7 @@ export function Footer() {
           </div>
 
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-            CloudCompress v0.1 • {currentYear}
+            CloudCompress • {currentYear}
           </span>
         </div>
 

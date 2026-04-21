@@ -294,7 +294,7 @@ export default function DocsPage() {
             {/* BOTTOM NAV */}
             <div className="border-t border-border/50 pt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/50">
-                CloudCompress Docs v0.1
+                CloudCompress Docs
               </p>
               <div className="flex gap-3">
                 <Link

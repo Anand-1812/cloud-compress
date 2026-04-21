@@ -322,7 +322,7 @@ export default function SocialSharePage() {
                 className="rounded-2xl h-12 px-8 bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity"
              >
                 {isDownloading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                Export WebP
+                Export image
              </Button>
           </div>
         </header>
